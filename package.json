@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
+    "sequelize": "^6.33.0",
     "typescript": "^5.2.2"
   },
   "devDependencies": {
