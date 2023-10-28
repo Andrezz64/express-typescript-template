@@ -32,30 +32,40 @@ export const ExportDefaultController = new DefaltController();
 
 ```
 
-### Models
+### ORM
 
 A model is a abstration of the object that you wanna to build in application and and database  levels. Is a ORM based thats you can operate in DB operations, like create, delete, update and sync to create the table, without a single query
 
-In this porject the ORM lib used was the Sequelizer
+In this porject the ORM lib used was the Prisma ORM
+
+[Prisma Docs](https://www.prisma.io/docs/getting-started)
 
 ```
-// This is a exemple of a orm model using sequelize.
-// A model can be used to set up your a table. create, edit or delete a entry in database.
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../data/sequelizeConfig";
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
 
-export const User = sequelize.define(
-  "users",
-  {
-    username: {
-      type: DataTypes.STRING,
-    },
-  },
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
+}
 
-  {
-    timestamps: false,
-  }
-);
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  posts   Post[]
+  profile Profile?
+}
 
 ```
 
@@ -86,4 +96,21 @@ class logs {
 
 export const Logs = new logs();
 
+```
+
+### Config File (new)
+
+The config file is a JS Module in the data folder on src, some configs params can be set ad re-write the default pre-set settings
+
+```
+module.exports = {
+    token: {
+        expires: "2h",
+        exceptionsRoutes: ["/api/v1/login", "/api/v1/user"]
+    },
+    logs:{
+        fileName:"fileNameExample",
+        filePath:"C:/Users/john.doe/api"
+    }
+};
 ```
