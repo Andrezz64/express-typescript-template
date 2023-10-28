@@ -1,0 +1,17 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ATENTION! Don´t use the sqlite for Production prupose
+
+datasource db {
+  provider = "sqlite" // SQL lite is the dafault buit-in database for this template, but just use it for development 
+  url      = env("DATABASE_URL")
+}
+
+// Create your databases models here 
+
+
